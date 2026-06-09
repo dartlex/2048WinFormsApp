@@ -1,6 +1,6 @@
 ﻿namespace _2048WinFormsApp
 {
-    partial class Form1
+    partial class mainForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -28,33 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label1 = new Label();
             SuspendLayout();
             // 
-            // label1
-            // 
-            label1.BackColor = SystemColors.ButtonShadow;
-            label1.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 204);
-            label1.Location = new Point(56, 99);
-            label1.Name = "label1";
-            label1.Size = new Size(90, 90);
-            label1.TabIndex = 0;
-            label1.Text = "2048";
-            label1.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // Form1
+            // mainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(616, 595);
-            Controls.Add(label1);
-            Name = "Form1";
-            Text = "Form1";
+            ClientSize = new Size(421, 459);
+            Name = "mainForm";
+            Text = "2048";
+            Load += Form1_Load;
             ResumeLayout(false);
         }
 
         #endregion
-
-        private Label label1;
     }
 }

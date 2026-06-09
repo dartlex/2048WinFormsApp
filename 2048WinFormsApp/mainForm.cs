@@ -1,0 +1,65 @@
+using System.CodeDom.Compiler;
+using System.Net.NetworkInformation;
+
+namespace _2048WinFormsApp
+{
+    public partial class mainForm : Form
+    {
+        private const int mapSize = 4;
+        private Label[,] labelsMap;
+        private static Random random = new Random();
+        public mainForm()
+        {
+            InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            InitMap();
+            GenerateNumber();
+        }
+
+        
+        private void InitMap()
+        {
+            labelsMap = new Label[mapSize, mapSize];
+            for (int i = 0; i < mapSize; i++)
+            {
+                for (int j = 0; j < mapSize; j++)
+                {
+                    var newLabel = CreateLabel(i, j);
+                    Controls.Add(newLabel);
+                    labelsMap[i, j]  = newLabel;
+                }
+            }
+        }
+
+        private void GenerateNumber()
+        {
+            while (true)
+            {
+                var randomNumberLabel = random.Next(mapSize * mapSize);
+                var indexRow = randomNumberLabel / mapSize;
+                var indexColumn = randomNumberLabel % mapSize;
+                if (labelsMap[indexRow, indexColumn].Text == string.Empty)
+                {
+                    labelsMap[indexRow, indexColumn].Text = "2";
+                    break;
+                }
+            }
+        }
+
+        private Label CreateLabel(int indexRow, int indexColumn)
+        {
+            var label = new Label();
+            label.BackColor = SystemColors.ButtonShadow;
+            label.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            label.Size = new Size(90, 90);
+            label.TextAlign = ContentAlignment.MiddleCenter;
+            int x = 10 + indexColumn * 96;
+            int y = 70 + indexRow * 96;
+            label.Location = new Point(x, y);
+            return label;
+        }
+    }
+}
