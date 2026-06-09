@@ -38,6 +38,7 @@
             Name = "mainForm";
             Text = "2048";
             Load += Form1_Load;
+            KeyDown += mainForm_KeyDown;
             ResumeLayout(false);
         }
 

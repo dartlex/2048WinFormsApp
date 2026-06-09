@@ -19,7 +19,7 @@ namespace _2048WinFormsApp
             GenerateNumber();
         }
 
-        
+
         private void InitMap()
         {
             labelsMap = new Label[mapSize, mapSize];
@@ -29,7 +29,7 @@ namespace _2048WinFormsApp
                 {
                     var newLabel = CreateLabel(i, j);
                     Controls.Add(newLabel);
-                    labelsMap[i, j]  = newLabel;
+                    labelsMap[i, j] = newLabel;
                 }
             }
         }
@@ -60,6 +60,44 @@ namespace _2048WinFormsApp
             int y = 70 + indexRow * 96;
             label.Location = new Point(x, y);
             return label;
+        }
+
+        private void mainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Right)
+            {
+                for (int i = 0; i < mapSize; i++)
+                {
+                    for (int j = mapSize - 1; j >= 0; j++)
+                    {
+                        if (labelsMap[i,j].Text != string.Empty)
+                        {
+                            for (int k = j - 1; k >= 0; k--)
+                            {
+                                if (labelsMap[i, k].Text != string.Empty)
+                                {
+                                    if (labelsMap[i, j].Text == labelsMap[i, k].Text)
+                                    {
+                                        var number = int.Parse(labelsMap[i, j].Text);
+                                        labelsMap[i, j].Text = (number * 2).ToString();
+                                    }
+                            }
+                        }
+                    }
+                }
+            }
+            if (e.KeyCode == Keys.Left)
+            {
+                MessageBox.Show("Левая стрелка");
+            }
+            if (e.KeyCode == Keys.Up)
+            {
+                MessageBox.Show("Верхняя стрелка");
+            }
+            if (e.KeyCode == Keys.Down)
+            {
+                MessageBox.Show("Нижняя стрелка");
+            }
         }
     }
 }
