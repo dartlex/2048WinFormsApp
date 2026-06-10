@@ -8,6 +8,8 @@ namespace _2048WinFormsApp
         private const int mapSize = 4;
         private Label[,] labelsMap;
         private static Random random = new Random();
+        private List<User> usersResult = new List<User>();
+        private User user;
         public mainForm()
         {
             InitializeComponent();
@@ -15,8 +17,33 @@ namespace _2048WinFormsApp
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            var startMenuInfo = new StartMenu();
+            if (startMenuInfo.ShowDialog() == DialogResult.OK)
+            {
+                if (!string.IsNullOrWhiteSpace(startMenuInfo.inputNameTextBox.Text))
+                {
+                    user = new User(startMenuInfo.inputNameTextBox.Text);
+                    user._score = 0;
+                }
+                else
+                {
+                    MessageBox.Show("Введите корректное имя");
+                    Form1_Load(sender, e);
+                }
+            }
+            else
+            {
+                Application.Exit();
+            }
+            userNameLabel.Text = startMenuInfo.inputNameTextBox.Text;
             InitMap();
             GenerateNumber();
+            ShowScore();
+        }
+
+        private void ShowScore()
+        {
+            scoreLabel.Text = user._score.ToString();
         }
 
 
@@ -79,6 +106,7 @@ namespace _2048WinFormsApp
                                     if (labelsMap[i, j].Text == labelsMap[i, k].Text)
                                     {
                                         var number = int.Parse(labelsMap[i, j].Text);
+                                        user._score += number * 2;
                                         labelsMap[i, j].Text = (number * 2).ToString();
                                         labelsMap[i, k].Text = string.Empty;
                                     }
@@ -124,6 +152,7 @@ namespace _2048WinFormsApp
                                     if (labelsMap[i, j].Text == labelsMap[i, k].Text)
                                     {
                                         var number = int.Parse(labelsMap[i, j].Text);
+                                        user._score += number * 2;
                                         labelsMap[i, j].Text = (number * 2).ToString();
                                         labelsMap[i, k].Text = string.Empty;
                                     }
@@ -168,6 +197,7 @@ namespace _2048WinFormsApp
                                     if (labelsMap[i, j].Text == labelsMap[k, j].Text)
                                     {
                                         var number = int.Parse(labelsMap[i, j].Text);
+                                        user._score += number * 2;
                                         labelsMap[i, j].Text = (number * 2).ToString();
                                         labelsMap[k, j].Text = string.Empty;
                                     }
@@ -212,6 +242,7 @@ namespace _2048WinFormsApp
                                     if (labelsMap[i, j].Text == labelsMap[k, j].Text)
                                     {
                                         var number = int.Parse(labelsMap[i, j].Text);
+                                        user._score += number * 2;
                                         labelsMap[i, j].Text = (number * 2).ToString();
                                         labelsMap[k, j].Text = string.Empty;
                                     }
@@ -242,6 +273,35 @@ namespace _2048WinFormsApp
                 }
             }
             GenerateNumber();
+            ShowScore();
+            if (CheckGameOver())
+            {
+                usersResult.Add(user);
+                MessageBox.Show($"Game Over! Ваш счет: {user._score}");
+                Application.Exit();
+            }
+        }
+
+        private bool CheckGameOver()
+        {
+            for (int i = 0; i < mapSize; i++)
+            {
+                for (int j = 0; j < mapSize; j++)
+                {
+                    if (labelsMap[i, j].Text == string.Empty) return false;
+                }
+            }
+
+            for (int i = 0; i < mapSize; i++)
+            {
+                for (int j = 0; j < mapSize; j++)
+                {
+                    if (j + 1 < mapSize && labelsMap[i, j].Text == labelsMap[i, j + 1].Text) return false;
+                    if (i + 1 < mapSize && labelsMap[i, j].Text == labelsMap[i + 1, j].Text) return false;
+                }
+            }
+
+            return true; 
         }
     }
 }
