@@ -64,13 +64,13 @@ namespace _2048WinFormsApp
 
         private void mainForm_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Right)
+            if (e.KeyCode == Keys.Right)
             {
                 for (int i = 0; i < mapSize; i++)
                 {
-                    for (int j = mapSize - 1; j >= 0; j++)
+                    for (int j = mapSize - 1; j >= 0; j--)
                     {
-                        if (labelsMap[i,j].Text != string.Empty)
+                        if (labelsMap[i, j].Text != string.Empty)
                         {
                             for (int k = j - 1; k >= 0; k--)
                             {
@@ -80,24 +80,168 @@ namespace _2048WinFormsApp
                                     {
                                         var number = int.Parse(labelsMap[i, j].Text);
                                         labelsMap[i, j].Text = (number * 2).ToString();
+                                        labelsMap[i, k].Text = string.Empty;
                                     }
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                for (int i = 0; i < mapSize; i++)
+                {
+                    for (int j = mapSize - 1; j >= 0; j--)
+                    {
+                        if (labelsMap[i, j].Text == string.Empty)
+                        {
+                            for (int k = j - 1; k >= 0; k--)
+                            {
+                                if (labelsMap[i, k].Text != string.Empty)
+                                {
+                                    labelsMap[i, j].Text = labelsMap[i, k].Text;
+                                    labelsMap[i, k].Text = string.Empty;
+                                    break;
+                                }
                             }
                         }
                     }
                 }
             }
+
             if (e.KeyCode == Keys.Left)
             {
-                MessageBox.Show("Левая стрелка");
+                for (int i = 0; i < mapSize; i++)
+                {
+                    for (int j = 0; j < mapSize; j++)
+                    {
+                        if (labelsMap[i, j].Text != string.Empty)
+                        {
+                            for (int k = j + 1; k < mapSize; k++)
+                            {
+                                if (labelsMap[i, k].Text != string.Empty)
+                                {
+                                    if (labelsMap[i, j].Text == labelsMap[i, k].Text)
+                                    {
+                                        var number = int.Parse(labelsMap[i, j].Text);
+                                        labelsMap[i, j].Text = (number * 2).ToString();
+                                        labelsMap[i, k].Text = string.Empty;
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                for (int i = 0; i < mapSize; i++)
+                {
+                    for (int j = 0; j < mapSize; j++)
+                    {
+                        if (labelsMap[i, j].Text == string.Empty)
+                        {
+                            for (int k = j + 1; k < mapSize; k++)
+                            {
+                                if (labelsMap[i, k].Text != string.Empty)
+                                {
+                                    labelsMap[i, j].Text = labelsMap[i, k].Text;
+                                    labelsMap[i, k].Text = string.Empty;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
             }
             if (e.KeyCode == Keys.Up)
             {
-                MessageBox.Show("Верхняя стрелка");
+                for (int j = 0; j < mapSize; j++)
+                {
+                    for (int i = 0; i < mapSize; i++)
+                    {
+                        if (labelsMap[i, j].Text != string.Empty)
+                        {
+                            for (int k = i + 1; k < mapSize; k++)
+                            {
+                                if (labelsMap[k, j].Text != string.Empty)
+                                {
+                                    if (labelsMap[i, j].Text == labelsMap[k, j].Text)
+                                    {
+                                        var number = int.Parse(labelsMap[i, j].Text);
+                                        labelsMap[i, j].Text = (number * 2).ToString();
+                                        labelsMap[k, j].Text = string.Empty;
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                for (int j = 0; j < mapSize; j++)
+                {
+                    for (int i = 0; i < mapSize; i++)
+                    {
+                        if (labelsMap[i, j].Text == string.Empty)
+                        {
+                            for (int k = i + 1; k < mapSize; k++)
+                            {
+                                if (labelsMap[k, j].Text != string.Empty)
+                                {
+                                    labelsMap[i, j].Text = labelsMap[k, j].Text;
+                                    labelsMap[k, j].Text = string.Empty;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
             }
             if (e.KeyCode == Keys.Down)
             {
-                MessageBox.Show("Нижняя стрелка");
+                for (int j = 0; j < mapSize; j++)
+                {
+                    for (int i = mapSize - 1; i >= 0; i--)
+                    {
+                        if (labelsMap[i, j].Text != string.Empty)
+                        {
+                            for (int k = i - 1; k >= 0; k--)
+                            {
+                                if (labelsMap[k, j].Text != string.Empty)
+                                {
+                                    if (labelsMap[i, j].Text == labelsMap[k, j].Text)
+                                    {
+                                        var number = int.Parse(labelsMap[i, j].Text);
+                                        labelsMap[i, j].Text = (number * 2).ToString();
+                                        labelsMap[k, j].Text = string.Empty;
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                for (int j = 0; j < mapSize; j++)
+                {
+                    for (int i = mapSize - 1; i >= 0; i--)
+                    {
+                        if (labelsMap[i, j].Text == string.Empty)
+                        {
+                            for (int k = i - 1; k >= 0; k--)
+                            {
+                                if (labelsMap[k, j].Text != string.Empty)
+                                {
+                                    labelsMap[i, j].Text = labelsMap[k, j].Text;
+                                    labelsMap[k, j].Text = string.Empty;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
             }
+            GenerateNumber();
         }
     }
 }
